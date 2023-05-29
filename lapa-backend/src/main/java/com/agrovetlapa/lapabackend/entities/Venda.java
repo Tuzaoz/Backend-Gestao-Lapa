@@ -4,31 +4,32 @@ import jakarta.persistence.*;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
 @Table
-public class Venda implements Serializable {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
-    private String produto;
-    @ManyToOne
-    @JoinColumn(name = "nome")
-    private Cliente nomeCliente;
-    private LocalDate data;
-    private Double valor;
-    private String categoriaProduto;
-    private String metodoPagamento;
-
+public class
+    Venda implements Serializable {
+        @Id
+        @GeneratedValue(strategy = GenerationType.IDENTITY)
+        private Integer id;
+        @ManyToMany(mappedBy = "vendas")
+        private List<Produto> produto = new ArrayList<>();
+        @ManyToOne
+        @JoinColumn(name = "cliente")
+        private Cliente nomeCliente;
+        private LocalDate data;
+        private Double valor;
+        private String metodoPagamento;
     public Venda() {
     }
 
 
-    public Venda(Integer id, String produto, Cliente nomeCliente, LocalDate data, Double valor, String categoriaProduto, String metodoPagamento) {
+    public Venda(Integer id, Cliente nomeCliente, LocalDate data, Double valor, String categoriaProduto, String metodoPagamento) {
         this.id = id;
-        this.produto = produto;
         this.nomeCliente = nomeCliente;
         this.data = data;
         this.valor = valor;
@@ -64,11 +65,11 @@ public class Venda implements Serializable {
         this.id = id;
     }
 
-    public String getProduto() {
+    public List<Produto> getProduto() {
         return produto;
     }
 
-    public void setProduto(String produto) {
+    public void setProduto(List<Produto> produto) {
         this.produto = produto;
     }
 

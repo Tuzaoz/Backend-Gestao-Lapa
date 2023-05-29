@@ -3,6 +3,8 @@ package com.agrovetlapa.lapabackend.entities;
 import com.agrovetlapa.lapabackend.entities.enums.Categoria;
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -13,6 +15,11 @@ public class Produto {
     private Integer id;
     private String name;
     private Double valor;
+    @ManyToMany
+    @JoinTable(name = "produto_venda",
+            joinColumns = @JoinColumn(name = "produto_id"),
+            inverseJoinColumns = @JoinColumn(name = "venda_id"))
+    private List<Venda> vendas = new ArrayList<>();
     private int categoria;
     private Integer quantidade;
 
