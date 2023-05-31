@@ -28,13 +28,10 @@ public class ProdutoController {
     }
     @PostMapping
     public ResponseEntity<Produto> insertProduto(@RequestBody Produto produto) {
-        Set<Integer> categorias = produto.getCategorias();
 
-        Produto produto1 = new Produto(null, produto.getName(), produto.getValor(), categorias,
-                produto.getQuantidade());
-        produto1 = produtoService.insert(produto1);
+        produto = produtoService.insert(produto);
         URI uri =
-                ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(produto1.getId()).toUri();
-        return ResponseEntity.created(uri).body(produto1);
+                ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(produto.getId()).toUri();
+        return ResponseEntity.created(uri).body(produto);
     }
 }

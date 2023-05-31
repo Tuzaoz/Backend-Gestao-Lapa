@@ -1,5 +1,6 @@
 package com.agrovetlapa.lapabackend.entities;
 
+import com.agrovetlapa.lapabackend.entities.enums.CategoriaProduto;
 import jakarta.persistence.*;
 
 import java.util.*;
@@ -17,15 +18,14 @@ public class Produto {
             joinColumns = @JoinColumn(name = "produto_id"),
             inverseJoinColumns = @JoinColumn(name = "venda_id"))
     private List<Venda> vendas = new ArrayList<>();
-    @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "produto_categorias")
-    private Set<Integer> categorias = new HashSet<>();
+    private CategoriaProduto categorias;
     private Integer quantidade;
 
     public Produto() {
     }
 
-    public Produto(Integer id, String name, Double valor, Set<Integer> categorias, Integer quantidade) {
+    public Produto(Integer id, String name, Double valor, CategoriaProduto categorias, Integer quantidade) {
         this.id = id;
         this.name = name;
         this.valor = valor;
@@ -65,11 +65,11 @@ public class Produto {
         this.valor = valor;
     }
 
-    public Set<Integer> getCategorias() {
+    public CategoriaProduto getCategorias() {
         return categorias;
     }
 
-    public void setCategorias(Set<Integer> categorias) {
+    public void setCategorias(CategoriaProduto categorias) {
         this.categorias = categorias;
     }
 
