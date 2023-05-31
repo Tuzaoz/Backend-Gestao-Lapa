@@ -11,8 +11,7 @@ import java.util.Objects;
 
 @Entity
 @Table
-public class
-    Venda implements Serializable {
+public class Venda implements Serializable {
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         private Integer id;
@@ -28,12 +27,11 @@ public class
     }
 
 
-    public Venda(Integer id, Cliente nomeCliente, LocalDate data, Double valor, String categoriaProduto, String metodoPagamento) {
+    public Venda(Integer id, Cliente nomeCliente, LocalDate data, Double valor, String metodoPagamento) {
         this.id = id;
         this.nomeCliente = nomeCliente;
         this.data = data;
         this.valor = valor;
-        this.categoriaProduto = categoriaProduto;
         this.metodoPagamento = metodoPagamento;
     }
 
@@ -41,13 +39,7 @@ public class
         this.nomeCliente = nomeCliente;
     }
 
-    public String getCategoriaProduto() {
-        return categoriaProduto;
-    }
 
-    public void setCategoriaProduto(String categoriaProduto) {
-        this.categoriaProduto = categoriaProduto;
-    }
 
     public String getMetodoPagamento() {
         return metodoPagamento;

@@ -1,11 +1,8 @@
 package com.agrovetlapa.lapabackend.entities;
 
-import com.agrovetlapa.lapabackend.entities.enums.Categoria;
 import jakarta.persistence.*;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 @Entity
 @Table
@@ -20,18 +17,36 @@ public class Produto {
             joinColumns = @JoinColumn(name = "produto_id"),
             inverseJoinColumns = @JoinColumn(name = "venda_id"))
     private List<Venda> vendas = new ArrayList<>();
-    private int categoria;
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(name = "produto_categorias")
+    private Set<Integer> categorias = new HashSet<>();
     private Integer quantidade;
 
     public Produto() {
     }
 
-    public Produto(Integer id, String name, Double valor, int categoria, Integer quantidade) {
+    public Produto(Integer id, String name, Double valor, Set<Integer> categorias, Integer quantidade) {
         this.id = id;
         this.name = name;
         this.valor = valor;
-        this.categoria = categoria;
+        this.categorias = categorias;
         this.quantidade = quantidade;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public List<Venda> getVendas() {
+        return vendas;
+    }
+
+    public void setVendas(List<Venda> vendas) {
+        this.vendas = vendas;
     }
 
     public String getName() {
@@ -50,12 +65,12 @@ public class Produto {
         this.valor = valor;
     }
 
-    public int getCategoria() {
-        return categoria;
+    public Set<Integer> getCategorias() {
+        return categorias;
     }
 
-    public void setCategoria(int categoria) {
-        this.categoria = categoria;
+    public void setCategorias(Set<Integer> categorias) {
+        this.categorias = categorias;
     }
 
     public Integer getQuantidade() {

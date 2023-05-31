@@ -3,6 +3,7 @@ package com.agrovetlapa.lapabackend.entities;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -15,6 +16,8 @@ public class Cliente {
     private Integer id;
     private String nome;
     private String fone;
+    private LocalDate dataCriacao;
+    private LocalDate dataAniversario;
     @JsonIgnore
     @OneToMany(mappedBy = "nomeCliente")
     private List<Venda> vendas = new ArrayList<>();
@@ -22,10 +25,38 @@ public class Cliente {
     public Cliente() {
     }
 
+    public Cliente(Integer id, String nome, String fone, LocalDate dataCriacao, LocalDate dataAniversario) {
+        this.id = id;
+        this.nome = nome;
+        this.fone = fone;
+        this.dataCriacao = dataCriacao;
+        this.dataAniversario = dataAniversario;
+    }
+
     public Cliente(Integer id, String nome, String fone) {
         this.id = id;
         this.nome = nome;
         this.fone = fone;
+    }
+
+    public LocalDate getDataCriacao() {
+        return dataCriacao;
+    }
+
+    public void setDataCriacao(LocalDate dataCriacao) {
+        this.dataCriacao = dataCriacao;
+    }
+
+    public LocalDate getDataAniversario() {
+        return dataAniversario;
+    }
+
+    public void setDataAniversario(LocalDate dataAniversario) {
+        this.dataAniversario = dataAniversario;
+    }
+
+    public void setVendas(List<Venda> vendas) {
+        this.vendas = vendas;
     }
 
     public Integer getId() {
