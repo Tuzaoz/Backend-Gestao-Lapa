@@ -21,6 +21,11 @@ public class ProdutoController {
 
     @Autowired
     public ProdutoService produtoService;
+    @GetMapping(value = "/{id}")
+    public ResponseEntity<Produto> findById(@PathVariable Integer id) {
+        Produto obj = produtoService.findById(id);
+        return ResponseEntity.ok().body(obj);
+    }
     @GetMapping
     public ResponseEntity<List<Produto>> findAll() {
         List<Produto> list = produtoService.findAll();
@@ -30,8 +35,7 @@ public class ProdutoController {
     public ResponseEntity<Produto> insertProduto(@RequestBody Produto produto) {
 
         produto = produtoService.insert(produto);
-        URI uri =
-                ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(produto.getId()).toUri();
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(produto.getId()).toUri();
         return ResponseEntity.created(uri).body(produto);
     }
 }

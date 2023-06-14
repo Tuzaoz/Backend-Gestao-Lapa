@@ -19,7 +19,7 @@ public class ProdutoService {
         return produtoRepository.findAll();
     }
 
-    public Produto findByid(Integer id) {
+    public Produto findById(Integer id) {
         Optional<Produto> produto = produtoRepository.findById(Long.valueOf(id));
         return produto.orElseThrow(() -> new ResourceNotFoundException(id));
     }
