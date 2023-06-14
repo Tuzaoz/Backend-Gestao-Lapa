@@ -32,5 +32,18 @@ public class ProdutoService {
         return produto.orElseThrow(() -> new ResourceNotFoundException(name));
     }
 
+    public Produto update(Integer id, Produto produto) {
+        produto.setId(id);
+        Produto produtoupdt = produtoRepository.getReferenceById(Long.valueOf(id));
+        updateData(produtoupdt,produto);
+        return produtoRepository.save(produtoupdt);
+    }
+    private void updateData(Produto entity, Produto obj) {
+        entity.setName(obj.getName());
+        entity.setQuantidade(obj.getQuantidade());
+        entity.setValor(obj.getValor());
+        entity.setCategorias(obj.getCategorias());
+    }
+
 }
 
