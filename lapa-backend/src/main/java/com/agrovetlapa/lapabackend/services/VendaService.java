@@ -42,6 +42,7 @@ public class VendaService {
     }
 
     public Venda insert(Venda venda){
+        venda.setValor();
         return vendaRepository.save(venda);
     }
 

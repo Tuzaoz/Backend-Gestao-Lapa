@@ -27,11 +27,10 @@ public class Venda implements Serializable {
     }
 
 
-    public Venda(Integer id, Cliente nomeCliente, LocalDate data, Double valor, String metodoPagamento) {
+    public Venda(Integer id, Cliente nomeCliente, LocalDate data, String metodoPagamento) {
         this.id = id;
         this.nomeCliente = nomeCliente;
         this.data = data;
-        this.valor = valor;
         this.metodoPagamento = metodoPagamento;
     }
 
@@ -82,8 +81,12 @@ public class Venda implements Serializable {
         return valor;
     }
 
-    public void setValor(Double valor) {
-        this.valor = valor;
+    public void setValor() {
+        for (Produto produtos:
+             this.produto) {
+            this.valor += produtos.getValor();
+        }
+
     }
 
     @Override

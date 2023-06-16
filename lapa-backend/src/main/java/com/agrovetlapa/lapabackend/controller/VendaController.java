@@ -52,7 +52,7 @@ public class VendaController {
         return ResponseEntity.ok().body(response);
     }
 
-    @PostMapping(value = "/hoje")
+    @PostMapping
     public ResponseEntity<Venda> insertVenda(@RequestBody Venda venda) {
         venda = vendaService.insert(venda);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(venda.getId()).toUri();

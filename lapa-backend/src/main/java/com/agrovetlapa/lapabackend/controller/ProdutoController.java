@@ -21,6 +21,7 @@ public class ProdutoController {
 
     @Autowired
     public ProdutoService produtoService;
+
     @GetMapping(value = "/{id}")
     public ResponseEntity<Produto> findById(@PathVariable Integer id) {
         Produto obj = produtoService.findById(id);

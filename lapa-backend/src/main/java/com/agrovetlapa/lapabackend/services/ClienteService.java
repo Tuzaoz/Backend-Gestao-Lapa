@@ -1,6 +1,7 @@
 package com.agrovetlapa.lapabackend.services;
 
 import com.agrovetlapa.lapabackend.entities.Cliente;
+import com.agrovetlapa.lapabackend.entities.Cliente;
 import com.agrovetlapa.lapabackend.repositories.ClienteRepository;
 import com.agrovetlapa.lapabackend.services.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +19,7 @@ public class ClienteService {
         return clienteRepository.findAll();
     }
 
-    public Cliente findByid(Integer id) {
+    public Cliente findById(Integer id) {
         Optional<Cliente> cliente = clienteRepository.findById(Long.valueOf(id));
         return cliente.orElseThrow(() -> new ResourceNotFoundException(id));
     }
@@ -31,4 +32,15 @@ public class ClienteService {
         return cliente.orElseThrow(() -> new ResourceNotFoundException(name));
     }
 
+    public Cliente update(Integer id, Cliente cliente) {
+        cliente.setId(id);
+        Cliente clienteupdt = clienteRepository.getReferenceById(Long.valueOf(id));
+        updateData(clienteupdt,cliente);
+        return clienteRepository.save(clienteupdt);
+    }
+    private void updateData(Cliente entity, Cliente obj) {
+        entity.setNome(obj.getNome());
+        entity.setFone(obj.getFone());
+        entity.setDataAniversario(obj.getDataAniversario());
+    }
 }
