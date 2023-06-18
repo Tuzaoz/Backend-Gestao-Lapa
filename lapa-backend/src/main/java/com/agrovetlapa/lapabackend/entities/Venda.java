@@ -1,5 +1,6 @@
 package com.agrovetlapa.lapabackend.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
@@ -15,13 +16,16 @@ public class Venda implements Serializable {
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         private Integer id;
-        @ManyToMany(mappedBy = "vendas")
+    @ManyToMany
+    @JoinTable(name = "produto_venda",
+            joinColumns = @JoinColumn(name = "venda_id"),
+            inverseJoinColumns = @JoinColumn(name = "produto_id"))
         private List<Produto> produto = new ArrayList<>();
         @ManyToOne
         @JoinColumn(name = "cliente")
         private Cliente nomeCliente;
         private LocalDate data;
-        private Double valor;
+        private Double valor = 0.0;
         private String metodoPagamento;
     public Venda() {
     }
@@ -29,6 +33,13 @@ public class Venda implements Serializable {
 
     public Venda(Integer id, Cliente nomeCliente, LocalDate data, String metodoPagamento) {
         this.id = id;
+        this.nomeCliente = nomeCliente;
+        this.data = data;
+        this.metodoPagamento = metodoPagamento;
+    }
+
+    public Venda(List<Produto> produto, Cliente nomeCliente, LocalDate data, String metodoPagamento) {
+        this.produto = produto;
         this.nomeCliente = nomeCliente;
         this.data = data;
         this.metodoPagamento = metodoPagamento;

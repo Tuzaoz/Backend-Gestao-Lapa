@@ -1,6 +1,7 @@
 package com.agrovetlapa.lapabackend.entities;
 
 import com.agrovetlapa.lapabackend.entities.enums.CategoriaProduto;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.*;
@@ -13,10 +14,9 @@ public class Produto {
     private Integer id;
     private String name;
     private Double valor;
-    @ManyToMany
-    @JoinTable(name = "produto_venda",
-            joinColumns = @JoinColumn(name = "produto_id"),
-            inverseJoinColumns = @JoinColumn(name = "venda_id"))
+
+    @ManyToMany(mappedBy = "produto")
+    @JsonIgnore
     private List<Venda> vendas = new ArrayList<>();
     @CollectionTable(name = "produto_categorias")
     private CategoriaProduto categorias;
