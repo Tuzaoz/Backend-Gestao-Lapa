@@ -1,9 +1,7 @@
 package com.agrovetlapa.lapabackend.controller;
 
-import com.agrovetlapa.lapabackend.entities.Cliente;
-import com.agrovetlapa.lapabackend.entities.Produto;
-import com.agrovetlapa.lapabackend.entities.Venda;
-import com.agrovetlapa.lapabackend.services.ClienteService;
+import com.agrovetlapa.lapabackend.entities.Conta;
+import com.agrovetlapa.lapabackend.services.ContaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,37 +11,32 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/cliente")
-public class ClienteController {
+@RequestMapping(value = "/contas")
+public class ContaController {
     @Autowired
-    ClienteService clienteService;
+    ContaService contaService;
 
     @GetMapping(value = "/find/{id}")
-    public ResponseEntity<Cliente> findById(@PathVariable Integer id) {
-        Cliente obj = clienteService.findById(id);
-        return ResponseEntity.ok().body(obj);
-    }
-    @GetMapping(value = "/{nome}")
-    public ResponseEntity<Cliente> findByName(@PathVariable String nome){
-        Cliente obj = clienteService.findByName(nome);
+    public ResponseEntity<Conta> findById(@PathVariable Integer id) {
+        Conta obj = contaService.findById(id);
         return ResponseEntity.ok().body(obj);
     }
     @GetMapping
-    public ResponseEntity<List<Cliente>> findAll(){
-        List<Cliente> clienteList = clienteService.findAll();
-        return ResponseEntity.ok().body(clienteList);
+    public ResponseEntity<List<Conta>> findAll(){
+        List<Conta> contaList = contaService.findAll();
+        return ResponseEntity.ok().body(contaList);
 
     }
     @PostMapping
-    public ResponseEntity<Cliente> insertCliente(@RequestBody Cliente cliente) {
-        cliente = clienteService.insert(cliente);
-        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(cliente.getId()).toUri();
-        return ResponseEntity.created(uri).body(cliente);
+    public ResponseEntity<Conta> insertConta(@RequestBody Conta conta) {
+        conta = contaService.insert(conta);
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(conta.getId()).toUri();
+        return ResponseEntity.created(uri).body(conta);
     }
 
     @PutMapping(value = "/{id}")
-    public  ResponseEntity<Cliente> update(@PathVariable Integer id, @RequestBody Cliente obj){
-        obj = clienteService.update(id,obj);
+    public  ResponseEntity<Conta> update(@PathVariable Integer id, @RequestBody Conta obj){
+        obj = contaService.update(id,obj);
         return ResponseEntity.ok().body(obj);
     }
 
