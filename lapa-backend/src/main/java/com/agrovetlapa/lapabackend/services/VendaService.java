@@ -52,6 +52,11 @@ public class VendaService {
         LocalDate max = maxDate.equals("") ? today : LocalDate.parse(maxDate);
         return vendaRepository.getVendasByDateRange(min,max);
     }
+    public List<Venda> getByData(String date){
+        LocalDate today = LocalDate.ofInstant(Instant.now(), ZoneId.systemDefault());
+        LocalDate data = LocalDate.parse(date);
+        return vendaRepository.findByData_Day(data);
+    }
 
     public List<Historico> getHistoricoInDateRange(String minDate, String maxDate){
         LocalDate today = LocalDate.ofInstant(Instant.now(), ZoneId.systemDefault());

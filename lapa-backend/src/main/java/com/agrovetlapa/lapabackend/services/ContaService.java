@@ -2,6 +2,7 @@ package com.agrovetlapa.lapabackend.services;
 
 import com.agrovetlapa.lapabackend.entities.Conta;
 import com.agrovetlapa.lapabackend.entities.Conta;
+import com.agrovetlapa.lapabackend.entities.Venda;
 import com.agrovetlapa.lapabackend.repositories.ContaRepository;
 import com.agrovetlapa.lapabackend.services.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,8 +29,14 @@ public class ContaService {
         Optional<Conta> obj = contaRepository.findById(Long.valueOf(id));
         return obj.orElseThrow(() -> new ResourceNotFoundException(id));
     }
-    
-    
+    public List<Conta> getByData(String date){
+        LocalDate today = LocalDate.ofInstant(Instant.now(), ZoneId.systemDefault());
+        LocalDate data = LocalDate.parse(date);
+        return contaRepository.findByData_Day(data);
+    }
+
+
+
 
     public Conta insert(Conta conta){
         return contaRepository.save(conta);
