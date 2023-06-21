@@ -11,7 +11,7 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/contas")
+@RequestMapping(value = "/contagits")
 public class ContaController {
     @Autowired
     ContaService contaService;
