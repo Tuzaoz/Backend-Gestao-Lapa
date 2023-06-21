@@ -18,7 +18,7 @@ import java.util.Objects;
 @Repository
 public interface VendaRepository extends JpaRepository<Venda,Long> {
     @Query("select obj FROM Venda obj WHERE obj.data = CURRENT_DATE ")
-    Page<Venda> findTodaySales(Pageable pageable);
+    List<Venda> findTodaySales();
 
     @Query("SELECT  SUM(valor) FROM Venda WHERE data = CURRENT_DATE ")
     Double totalDia();

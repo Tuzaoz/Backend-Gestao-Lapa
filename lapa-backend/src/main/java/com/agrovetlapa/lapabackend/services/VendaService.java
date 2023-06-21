@@ -1,6 +1,7 @@
 package com.agrovetlapa.lapabackend.services;
 
         import com.agrovetlapa.lapabackend.entities.Historico;
+        import com.agrovetlapa.lapabackend.entities.ItemVenda;
         import com.agrovetlapa.lapabackend.entities.Venda;
         import com.agrovetlapa.lapabackend.repositories.VendaRepository;
         import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ package com.agrovetlapa.lapabackend.services;
         import java.time.Instant;
         import java.time.LocalDate;
         import java.time.ZoneId;
+        import java.util.ArrayList;
         import java.util.List;
         import java.util.Objects;
         import java.util.Optional;
@@ -32,8 +34,8 @@ public class VendaService {
         return obj.orElseThrow(() -> new ResourceNotFoundException(id));
     }
 
-    public Page<Venda> findTodayDate(Pageable pageable){
-        return vendaRepository.findTodaySales(pageable);
+    public List<Venda> findTodayDate(){
+        return vendaRepository.findTodaySales();
     }
 
     public Double totalDia(){
@@ -44,6 +46,7 @@ public class VendaService {
         venda.setValor();
         return vendaRepository.save(venda);
     }
+
 
     public List<Venda> getVendasByDateRange(String minDate, String maxDate){
         LocalDate today = LocalDate.ofInstant(Instant.now(), ZoneId.systemDefault());

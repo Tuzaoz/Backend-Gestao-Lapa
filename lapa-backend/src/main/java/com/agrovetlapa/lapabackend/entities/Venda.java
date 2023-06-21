@@ -11,20 +11,16 @@ import java.util.List;
 import java.util.Objects;
 
 @Entity
-@Table
 public class Venda implements Serializable {
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         private Integer id;
-    @ManyToMany
-    @JoinTable(name = "produto_venda",
-            joinColumns = @JoinColumn(name = "venda_id"),
-            inverseJoinColumns = @JoinColumn(name = "produto_id"))
-        private List<Produto> produto = new ArrayList<>();
-        @ManyToOne
-        @JoinColumn(name = "cliente")
-        private Cliente nomeCliente;
-        private LocalDate data;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "venda", cascade = CascadeType.ALL)
+    private List<ItemVenda> itemVenda = new ArrayList<>();
+    @ManyToOne
+    @JoinColumn(name = "cliente_id")
+    private Cliente nomeCliente;
+    private LocalDate data;
         private Double valor = 0.0;
         private String metodoPagamento;
     public Venda() {
@@ -38,8 +34,8 @@ public class Venda implements Serializable {
         this.metodoPagamento = metodoPagamento;
     }
 
-    public Venda(List<Produto> produto, Cliente nomeCliente, LocalDate data, String metodoPagamento) {
-        this.produto = produto;
+    public Venda(List<ItemVenda> itemVenda, Cliente nomeCliente, LocalDate data, String metodoPagamento) {
+        this.itemVenda = itemVenda;
         this.nomeCliente = nomeCliente;
         this.data = data;
         this.metodoPagamento = metodoPagamento;
@@ -67,12 +63,12 @@ public class Venda implements Serializable {
         this.id = id;
     }
 
-    public List<Produto> getProduto() {
-        return produto;
+    public List<ItemVenda> getitemVenda() {
+        return itemVenda;
     }
 
-    public void setProduto(List<Produto> produto) {
-        this.produto = produto;
+    public void setitemVenda(List<ItemVenda> itemVenda) {
+        this.itemVenda = itemVenda;
     }
 
     public Cliente getNomeCliente() {
@@ -93,9 +89,10 @@ public class Venda implements Serializable {
     }
 
     public void setValor() {
-        for (Produto produtos:
-             this.produto) {
-            this.valor += produtos.getValor();
+        for (ItemVenda itens:
+             this.itemVenda) {
+            itens.setValorTotal();
+            this.valor += itens.getValorTotal();
         }
 
     }

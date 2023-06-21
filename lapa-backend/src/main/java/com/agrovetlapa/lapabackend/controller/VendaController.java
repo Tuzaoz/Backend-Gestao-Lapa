@@ -1,8 +1,10 @@
 package com.agrovetlapa.lapabackend.controller;
 
 import com.agrovetlapa.lapabackend.entities.Dia;
+import com.agrovetlapa.lapabackend.entities.ItemVenda;
 import com.agrovetlapa.lapabackend.entities.Venda;
 import com.agrovetlapa.lapabackend.repositories.DiaRepository;
+import com.agrovetlapa.lapabackend.repositories.ItemVendaRepository;
 import com.agrovetlapa.lapabackend.repositories.VendaRepository;
 import com.agrovetlapa.lapabackend.responses.VendaResponse;
 import com.agrovetlapa.lapabackend.services.DiaService;
@@ -31,6 +33,8 @@ public class VendaController {
     private DiaService diaService;
     @Autowired
     private DiaRepository diaRepository;
+    @Autowired
+    private ItemVendaRepository itemVendaRepository;
 
     @GetMapping
     public ResponseEntity<List<Venda>> findAll() {
@@ -50,17 +54,22 @@ public class VendaController {
     }
 
     @GetMapping(value = "/hoje")
-    public ResponseEntity<VendaResponse> dadosHoje(Pageable pageable) {
-        Page<Venda> list = vendaService.findTodayDate(pageable);
-        Double valor = vendaService.totalDia();
-        VendaResponse response = new VendaResponse(list, valor);
-        return ResponseEntity.ok().body(response);
+    public ResponseEntity<List<Venda>> dadosHoje() {
+        List<Venda> list = vendaService.findTodayDate();
+        return ResponseEntity.ok().body(list);
     }
 
     @PostMapping
     public ResponseEntity<Venda> insertVenda(@RequestBody Venda venda) {
         venda = vendaService.insert(venda);
+
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(venda.getId()).toUri();
+        for (ItemVenda itemVenda:
+             venda.getitemVenda()) {
+            itemVenda.setVenda(venda);
+            itemVendaRepository.save(itemVenda);
+
+        }
         return ResponseEntity.created(uri).body(venda);
     }
 
