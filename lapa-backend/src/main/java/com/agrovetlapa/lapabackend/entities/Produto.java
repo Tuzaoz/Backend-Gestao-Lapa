@@ -20,12 +20,12 @@ public class Produto {
     private List<ItemVenda> itemVendas = new ArrayList<>();
     @CollectionTable(name = "produto_categorias")
     private CategoriaProduto categorias;
-    private Integer quantidade;
+    private Double quantidade;
 
     public Produto() {
     }
 
-    public Produto(Integer id, String name, Double valor, CategoriaProduto categorias, Integer quantidade) {
+    public Produto(Integer id, String name, Double valor, CategoriaProduto categorias, Double quantidade) {
         this.id = id;
         this.name = name;
         this.valor = valor;
@@ -67,14 +67,16 @@ public class Produto {
         this.categorias = categorias;
     }
 
-    public Integer getQuantidade() {
+    public Double getQuantidade() {
         return quantidade;
     }
 
-    public void setQuantidade(Integer quantidade) {
+    public void setQuantidade(Double quantidade) {
         this.quantidade = quantidade;
     }
-
+    public void removerEstoque(Double quantidade){
+        this.quantidade-= quantidade;
+    }
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

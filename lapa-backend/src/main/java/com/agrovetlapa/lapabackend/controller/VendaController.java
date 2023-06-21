@@ -2,12 +2,15 @@ package com.agrovetlapa.lapabackend.controller;
 
 import com.agrovetlapa.lapabackend.entities.Dia;
 import com.agrovetlapa.lapabackend.entities.ItemVenda;
+import com.agrovetlapa.lapabackend.entities.Produto;
 import com.agrovetlapa.lapabackend.entities.Venda;
 import com.agrovetlapa.lapabackend.repositories.DiaRepository;
 import com.agrovetlapa.lapabackend.repositories.ItemVendaRepository;
+import com.agrovetlapa.lapabackend.repositories.ProdutoRepository;
 import com.agrovetlapa.lapabackend.repositories.VendaRepository;
 import com.agrovetlapa.lapabackend.responses.VendaResponse;
 import com.agrovetlapa.lapabackend.services.DiaService;
+import com.agrovetlapa.lapabackend.services.ProdutoService;
 import com.agrovetlapa.lapabackend.services.VendaService;
 import com.agrovetlapa.lapabackend.services.exceptions.NullKeySerializer;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -32,7 +35,7 @@ public class VendaController {
     @Autowired
     private DiaService diaService;
     @Autowired
-    private DiaRepository diaRepository;
+    private ProdutoService produtoService;
     @Autowired
     private ItemVendaRepository itemVendaRepository;
 
@@ -67,7 +70,10 @@ public class VendaController {
         for (ItemVenda itemVenda:
              venda.getitemVenda()) {
             itemVenda.setVenda(venda);
+            itemVenda.getProduto().removerEstoque(itemVenda.getQuantidadeProduto());
+            produtoService.update(itemVenda.getProduto().getId(),itemVenda.getProduto());
             itemVendaRepository.save(itemVenda);
+
 
         }
         return ResponseEntity.created(uri).body(venda);
