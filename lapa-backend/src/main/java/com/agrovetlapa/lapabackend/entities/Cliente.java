@@ -18,8 +18,9 @@ public class Cliente {
     private String fone;
     private LocalDate dataCriacao;
     private LocalDate dataAniversario;
-    @JsonIgnore
+
     @OneToMany(mappedBy = "nomeCliente")
+    @JsonIgnore
     private List<Venda> vendas = new ArrayList<>();
 
     public Cliente() {

@@ -1,6 +1,7 @@
 package com.agrovetlapa.lapabackend.controller;
 
 import com.agrovetlapa.lapabackend.entities.Conta;
+import com.agrovetlapa.lapabackend.entities.Venda;
 import com.agrovetlapa.lapabackend.services.ContaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +21,11 @@ public class ContaController {
     public ResponseEntity<Conta> findById(@PathVariable Integer id) {
         Conta obj = contaService.findById(id);
         return ResponseEntity.ok().body(obj);
+    }
+    @GetMapping(value = "/filter")
+    public ResponseEntity<List<Conta>> findByData_Dia(@RequestParam(value = "date", defaultValue = "") String date) {
+        List<Conta> contas = contaService.getByData(date);
+        return ResponseEntity.ok().body(contas);
     }
     @GetMapping
     public ResponseEntity<List<Conta>> findAll(){

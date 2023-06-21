@@ -15,9 +15,9 @@ public class Produto {
     private String name;
     private Double valor;
 
-    @ManyToMany(mappedBy = "produto")
+    @OneToMany(mappedBy = "produto")
     @JsonIgnore
-    private List<Venda> vendas = new ArrayList<>();
+    private List<ItemVenda> itemVendas = new ArrayList<>();
     @CollectionTable(name = "produto_categorias")
     private CategoriaProduto categorias;
     private Integer quantidade;
@@ -41,13 +41,7 @@ public class Produto {
         this.id = id;
     }
 
-    public List<Venda> getVendas() {
-        return vendas;
-    }
 
-    public void setVendas(List<Venda> vendas) {
-        this.vendas = vendas;
-    }
 
     public String getName() {
         return name;
